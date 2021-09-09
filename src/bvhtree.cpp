@@ -21,7 +21,7 @@ void BVHTree::makeLeaf(std::vector<Object> &objects) {
     bbox = boundingBox(objects);
     isLeaf = true;
     for (Object &obj: objects)
-        leafs.push_back(&obj);
+        objs.push_back(obj.min);
 }
 
 Rectangle BVHTree::split(std::vector<Object> &objects) {
@@ -34,19 +34,24 @@ Rectangle BVHTree::split(std::vector<Object> &objects) {
 }
 
 void BVHTree::destroy() {
-    if (left != nullptr)
+    if (left)
         left->destroy();
-    if (right != nullptr)
+    if (right)
         right->destroy();
     delete this;
 }
 
-void BVHTree::draw() {
-    DrawRectangleLines((int) bbox.x, (int) bbox.y, (int) bbox.width, (int) bbox.height, BLACK);
-    if (left != nullptr)
-        left->draw();
-    if (right != nullptr)
-        right->draw();
+void BVHTree::draw(Texture &tex, bool drawRect) {
+    if (isLeaf) {
+        for (Vector2 &pos: objs)
+            DrawTextureV(tex, pos, WHITE);
+    }
+    if (drawRect)
+        DrawRectangleLines((int) bbox.x, (int) bbox.y, (int) bbox.width, (int) bbox.height, BLACK);
+    if (left)
+        left->draw(tex, drawRect);
+    if (right)
+        right->draw(tex, drawRect);
 }
 
 Rectangle BVHTree::boundingBox(std::vector<Object> &cells) {
