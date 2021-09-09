@@ -15,12 +15,12 @@ struct Object {
 
 class BVHTree {
 private:
-    Rectangle bbox;
+    Rectangle bbox = Rectangle{0, 0, 0, 0};
     BVHTree *left = nullptr;
     BVHTree *right = nullptr;
     bool isLeaf = false;
     int leafSize = 2;
-    std::vector<Object *> leafs;
+    std::vector<Vector2> objs;
 
     static Rectangle boundingBox(std::vector<Object> &cells);
 
@@ -35,5 +35,5 @@ public:
 
     void destroy();
 
-    void draw();
+    void draw(Texture &tex, bool drawRect = true);
 };
