@@ -52,12 +52,7 @@ int main() {
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
-
-        for (Object &object: cells) {
-            Color col = WHITE;
-            DrawTextureV(circleTexture.texture, object.pos, col);
-        }
-        tree->draw();
+        tree->draw(circleTexture.texture);
         DrawFPS(10, 10);
         EndDrawing();
         tree->destroy();
